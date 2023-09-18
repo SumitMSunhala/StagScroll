@@ -17,41 +17,9 @@ StagScroll is a jQuery plugin that creates a container to support scrolling over
 - `domElementsCount`: This specifies the max number of elements(records) inside the container. Default 200. Decide this cautiously based on your needs, as it could affect the performance, or result in misbehavior of the plugin or stop it completely.
 - `lineNumber`: This is the line number where the plugin will focus by default. default is 1.
 
-
-## Usage
-Here’s a basic example of how to use StagScroll:
-$(document).ready(function() {
-    var stagScrollData = $('#myElement').stagScroll({
-      data: <json array here>,
-      rowTemplate: <row template here>,
-      ssidField: <unique number field name here>,
-      height: <height in px here>,
-      domElementsCount: <number of elements count for DOM here>,
-      lineNumber : <line number to focus here>
-    });
-});
-
-## API Reference
-Please refer to our API documentation for more details on how to use StagScroll and its various configuration options.
-
-## Methods
- - goToLine(linenumber): This method takes linenumber as argument and brings the mentioned number in viewport.
-  stagScrollData.goToLine(1436);
-
-## Development Status
-Please note that StagScroll is currently in the development phase. We welcome any error reports and will strive to resolve them as quickly as possible.
-
-## Contributing
-We appreciate your interest in contributing to StagScroll! Please submit any bugs or feature requests through the issue tracker.
-
-## License
-StagScroll is licensed under the MIT License. See LICENSE for more information.
-
 ## Installation
 
 To install StagScroll, you can use the following command:
 
 ```bash
 npm install stagscroll
-
-
