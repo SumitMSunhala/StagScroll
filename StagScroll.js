@@ -25,16 +25,16 @@ if (!window["jQuery"]) throw "Please include jquery";
                         console.log(`line number ${that.lineNumber} visible partially in top of UI`);
                         let elemToFocus = that.element.find(`[data-ssid=${that.lineNumber}]`),
                             elemToFocusHeight = elemToFocus.height();
-                        elemToFocus.get(0).scrollIntoView({ behavior: "smooth", block: "center" });
+                        //elemToFocus.get(0).scrollIntoView({ behavior: "smooth", block: "center" });
                         //that.element.scrollTop(parseInt(that.element.scrollTop() - elemToFocusHeight));
-                        //that.element.animate({ scrollTop: parseInt(that.element.scrollTop() - elemToFocusHeight) }, 600);
+                        that.element.animate({ scrollTop: parseInt(that.element.scrollTop() - elemToFocusHeight) }, 600);
                     } else if (that.element.find(`[data-ssid=${that.lineNumber}]`).is(`:${isinpartialbottomview}`)) {
                         console.log(`line number ${that.lineNumber} visible partially in bottom of UI`);
                         let elemToFocus = that.element.find(`[data-ssid=${that.lineNumber}]`),
                             elemToFocusHeight = elemToFocus.height();
-                        elemToFocus.get(0).scrollIntoView({ behavior: "smooth", block: "center" });
+                        //elemToFocus.get(0).scrollIntoView({ behavior: "smooth", block: "center" });
                         //that.element.scrollTop(parseInt(that.element.scrollTop() - elemToFocusHeight));
-                        //that.element.animate({ scrollTop: parseInt(that.element.scrollTop() + elemToFocusHeight) }, 600);
+                        that.element.animate({ scrollTop: parseInt(that.element.scrollTop() + elemToFocusHeight) }, 600);
                     } else{
                         console.log(`line number ${that.lineNumber} not visible in UI`);
                         that.createLines(that.lineNumber);
