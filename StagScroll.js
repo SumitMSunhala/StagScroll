@@ -5,7 +5,7 @@ if (!window["jQuery"]) throw "Please include jquery";
     // Plugin definition.
     $.fn.stagScroll = function(options) {
         let defaultOptions = {
-                uid: "",//(Math.random() + 1).toString(36).substring(2),
+                uid: (Math.random() + 1).toString(36).substring(2),
                 data: [],
                 rowTemplate: "",
                 ssidField: "",
