@@ -1,0 +1,19 @@
+{
+    "name": "stag-scroll",
+    "version": "1.0.0",
+    "description": "A jQuery plugin for scrolling through code snippets.",
+    "main": "lib/stag-scroll.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "jquery",
+        "scroll",
+        "code"
+    ],
+    "author": "Author Name",
+    "license": "MIT",
+    "dependencies": {
+        "jquery": "^3.7.1"
+    }
+}
