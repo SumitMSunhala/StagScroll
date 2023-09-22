@@ -11,8 +11,8 @@ StagScroll is a jQuery plugin that creates a container to support scrolling over
 ## Configuration Options
 
 - `data`: This should have the static array for which we have to create scrolling.
-- `rowTemplate`: This could be a string or a function that will set each row template.
-- `altRowTemplate`: This could be a string or a function that will set each alternate row template.
+- `rowTemplate`: This could be a string or a function that will set each row's template.
+- `altRowTemplate`: This could be a string or a function that will set each alternate row's template.
 - `ssidField`: This field should specify the field of the data array above which has unique id number for each row.
 - `height`: This specifies the height of the container element in pixels. (default 400px)
 - `domElementsCount`: This specifies the max number of elements(records) inside the container. Default 200. Decide this cautiously based on your needs, as it could affect the performance, or result in misbehavior of the plugin or stop it completely.
