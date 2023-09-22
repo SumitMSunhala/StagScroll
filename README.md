@@ -33,12 +33,13 @@ Here’s a basic example of how to use StagScroll:
 ```js
 $(document).ready(function() {
     var stagScrollData = $('#myElement').stagScroll({
-      data: <json array here>,
-      rowTemplate: <row template here>,
-      ssidField: <unique number field name here>,
-      height: <height in px here>,
-      domElementsCount: <number of elements count for DOM here>,
-      lineNumber : <line number to focus here>
+      data: [{...id:1, name:"stag"...}],
+      rowTemplate: function(rowData){ return `...${rowData.name}...`},
+      altRowTemplate: function(rowData){ return `...${rowData.name}...`},
+      ssidField: "id",
+      height: 600,
+      domElementsCount: 500,
+      lineNumber : 1
     });
 });
 ```
@@ -54,6 +55,9 @@ stagScrollData.goToLine(1436); // this will bring line number 1436 in the view.
 
 ## Development Status
 Please note that StagScroll is currently in the development phase. We welcome any error reports and will strive to resolve them as quickly as possible.
+
+### Future Plan
+We are going to add support of remote data soon.
 
 ## Contributing
 We appreciate your interest in contributing to StagScroll! Please submit any bugs or feature requests through the issue tracker.
