@@ -8,21 +8,21 @@
             flex: 50%;
             padding: 10px;
             margin: 5px;
-            background-color: #cccccc;
+            background-color: #ddd;
             text-align: center;
         }
         .column50 {
             flex: 50%;
             padding: 10px;
             margin: 5px;
-            background-color: #cccccc;
+            background-color: #ddd;
             text-align: center;
         }
         .column33 {
             flex: 33.33%;
             padding: 10px;
             margin: 5px;
-            background-color: #cccccc;
+            background-color: #ddd;
             text-align: center;
         }
         .container {
@@ -82,7 +82,7 @@
     </style>
     <script src="Scripts/jquery-3.7.1.min.js" type="text/javascript"></script>
     <script src="Scripts/chance.min.js" type="text/javascript"></script>
-    <script src="Scripts/prepdata.js" type="text/javascript"></script>
+    <script src="Scripts/prepareData.js" type="text/javascript"></script>
     <script src="Scripts/StagScroll.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -92,15 +92,21 @@
                     alert("Enter positive number of rows.");
                     return;
                 }
-                let someData = prepData(lineCount);
-                let stagScrollData = $("#customersTbody").stagScroll({
-                    domElementsCount: 100,
-                    data: someData,
-                    ssidField: "index",
-                    height: 500,
-                    lineNumber: 1,
-                    rowTemplate: function(rowData) {
-                        return `<tr style='background-color: #ddd;'>
+                prepareDataPromise(lineCount).then(function(someData){
+                    let stagScrollData = $("#customersTbody").stagScroll({
+                        domElementsCount: 100,
+                        data: someData,
+                        ssidField: "index",
+                        height: 500,
+                        lineNumber: 1,
+                        cssOverrides: {
+                            "overflow-x": "hidden"
+                        },
+                        topPadding: function() {
+                            return $("#customers thead").height();
+                        },
+                        rowTemplate: function(rowData) {
+                            return `<tr style='background-color: #ddd;'>
                             <td>${rowData.index}</td>
                             <td>${rowData.first}</td>
                             <td>${rowData.last}</td>
@@ -108,9 +114,9 @@
                             <td>${rowData.city}</td>
                             <td>${rowData.state}</td>
                         </tr>`;
-                    },
-                    altRowTemplate: function (rowData){
-                        return `<tr style='background-color: #f2f2f2;'>
+                        },
+                        altRowTemplate: function (rowData){
+                            return `<tr style='background-color: #f2f2f2;'>
                             <td>${rowData.index}</td>
                             <td>${rowData.first}</td>
                             <td>${rowData.last}</td>
@@ -118,19 +124,21 @@
                             <td>${rowData.city}</td>
                             <td>${rowData.state}</td>
                         </tr>`;
-                    }
+                        }
+                    });
+                }).catch(function(ex){
+                    console.log(`something went wrong while generating sample data :: ${ex}`);
                 });
-                console.log("stagScrollData", stagScrollData);
+                
             });
             $("#btnJumpToLineNumber").click(function() {
                 let lineNumberToJump = parseInt($("#txtJumpToLineNumber").val());
-                let stagScrollData = $("#customersTbody").data("stagScrollData");
-                if (!stagScrollData || lineNumberToJump > stagScrollData.total){
+                let stagScrollData = $("#customersTbody").data("stagScroll");
+                if (!stagScrollData || lineNumberToJump<=0 || lineNumberToJump > stagScrollData.total){
                     alert(`Enter line number between 1 to ${stagScrollData.total}`);
                     return;
                 }
                 stagScrollData.goToLine(lineNumberToJump);
-                console.log("stagScrollData", stagScrollData);
             });
         });
     </script>

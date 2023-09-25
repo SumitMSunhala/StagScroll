@@ -8,15 +8,14 @@ if (!window["jQuery"]) throw "Please include jquery";
                 uid: (Math.random() + 1).toString(36).substring(2),
                 data: [],
                 rowTemplate: "",
-<<<<<<<< HEAD:src/stagscroll.js
-========
                 altRowTemplate: "",
->>>>>>>> eaefc90 (Added a clean UI to add rows and jump to specific row/line.):Scripts/StagScroll.js
                 ssidField: "",
                 element: this,
                 height: 400,
                 domElementsCount: 200,
                 lineNumber: 1,
+                topPadding: 0,
+                cssOverrides: {},
                 goToLine: function(lineNumber) {
                     let that = opts;
                     that.lineNumber = parseInt(lineNumber);
@@ -48,11 +47,7 @@ if (!window["jQuery"]) throw "Please include jquery";
                     let that = opts;
                     that.element.children().remove();
                 },
-                createLines: function(lineNumber, append) {
-<<<<<<<< HEAD:src/stagscroll.js
-                    debugger;
-========
->>>>>>>> eaefc90 (Added a clean UI to add rows and jump to specific row/line.):Scripts/StagScroll.js
+                createLines: function(lineNumber) {
                     console.time("createLines"+lineNumber);
                     let that = opts;
                     let size = that.domElementsCount / 2;
@@ -91,16 +86,11 @@ if (!window["jQuery"]) throw "Please include jquery";
                         endLineNo = displayOptions.endLineNo, 
                         append = displayOptions.append;
                     let that = opts;
-<<<<<<<< HEAD:src/stagscroll.js
-                    let linesOnly = that.data.slice(startLineNo-1, endLineNo).map(function(v, i) {
-                        let rowTmpl = typeof that.rowTemplate == 'function' ? that.rowTemplate(v) : that.rowTemplate;
-========
                     let rowTmplOptions = that.rowTemplate;
                     let altRowTmplOptions = that.altRowTemplate || rowTmplOptions;
                     let linesOnly = that.data.slice(startLineNo-1, endLineNo).map(function(v, i) {
                         let currRowTemplate = parseInt(v[that.ssidField]) % 2 === 1 ? rowTmplOptions: altRowTmplOptions;
                         let rowTmpl = typeof currRowTemplate == 'function' ? currRowTemplate(v) : currRowTemplate;
->>>>>>>> eaefc90 (Added a clean UI to add rows and jump to specific row/line.):Scripts/StagScroll.js
                         let elemsToAdd = $(rowTmpl);
                         elemsToAdd.attr("data-ssid", v[that.ssidField]);
                         return elemsToAdd;
@@ -166,33 +156,24 @@ if (!window["jQuery"]) throw "Please include jquery";
                     let positions = getPositions(el);
                     return positions.fullInView;
                 }
-<<<<<<<< HEAD:src/stagscroll.js
-            });
-
-========
             }),
             stagScrollData = {
                 uid: opts.uid,
                 total: opts.data.length,
                 goToLine: opts.goToLine
             };
-        opts.element.data("stagScrollData", stagScrollData);
->>>>>>>> eaefc90 (Added a clean UI to add rows and jump to specific row/line.):Scripts/StagScroll.js
-        opts.element.css({
+        opts.element.data("stagScroll", stagScrollData);
+        opts.element.css($.extend({}, {
             "height": opts.height + "px",
             "overflow": "auto",
             "display": "inline-block"
-        }).unbind("scroll.stagScroll").bind("scroll.stagScroll", function(e) {
+        }, opts.cssOverrides)).unbind("scroll.stagScroll").bind("scroll.stagScroll", function(e) {
             let jsElem = opts.element[0];
             let that = opts;
             let size = that.domElementsCount / 2;
             let isPreventScroll = $(opts.element).data("preventScroll");
             if (isPreventScroll) return;
             if (Math.abs(jsElem.scrollHeight - jsElem.scrollTop - jsElem.clientHeight) < 1) {
-<<<<<<<< HEAD:src/stagscroll.js
-                debugger;
-========
->>>>>>>> eaefc90 (Added a clean UI to add rows and jump to specific row/line.):Scripts/StagScroll.js
                 let lastElem = that.element.children(`:${isinview}:last`);
                 let lastElemssid = parseInt(lastElem.attr('data-ssid'));
                 let nextPageInitNumber = lastElemssid + 1;
@@ -215,6 +196,7 @@ if (!window["jQuery"]) throw "Please include jquery";
                     });
                 }
             } else if ($(opts.element).scrollTop() === 0) {
+                debugger;
                 let firstElem = that.element.children(`:${isinview}:first`);
                 let firstElemssid = parseInt(firstElem.attr('data-ssid'));
                 let prevPageLastNumber = firstElemssid - 1;
@@ -222,7 +204,7 @@ if (!window["jQuery"]) throw "Please include jquery";
                 if (prevPageInitNumber<1 && prevPageLastNumber>prevPageInitNumber){
                     prevPageInitNumber = 1;
                 }
-                //console.log("to top", prevPageInitNumber, prevPageLastNumber);
+                console.log("to top", prevPageInitNumber, prevPageLastNumber);
                 if (prevPageInitNumber < 1 || prevPageLastNumber < 1){
                     console.log("first page");
                 }else{
@@ -235,8 +217,10 @@ if (!window["jQuery"]) throw "Please include jquery";
                                 size: size,
                                 fromTop: false
                             });
-                            let firstElemTopPosition = firstElem.position().top;
+                            let topPadding = typeof opts.topPadding === "function" ? opts.topPadding() : opts.topPadding;
+                            let firstElemTopPosition = firstElem.position().top - (!isNaN(topPadding)?topPadding:0);
                             that.element.animate({ scrollTop: parseInt(firstElemTopPosition) }, 10);
+                            //firstElem.get(0).scrollIntoView({ behavior: "smooth", block: "start" });
                         }
                     });
                 }
@@ -244,13 +228,6 @@ if (!window["jQuery"]) throw "Please include jquery";
             
         });
         opts.createLines(opts.lineNumber);
-<<<<<<<< HEAD:src/stagscroll.js
-        return {
-            uid: opts.uid,
-            goToLine: opts.goToLine
-        };
-========
         return stagScrollData;
->>>>>>>> eaefc90 (Added a clean UI to add rows and jump to specific row/line.):Scripts/StagScroll.js
     };
 })(jQuery, window, document);
